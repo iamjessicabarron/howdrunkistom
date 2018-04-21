@@ -19,95 +19,104 @@
 
   html, body, button, input, label { font-family: 'Rubik', sans-serif; }
   body { padding: 2vw; font-size: 36px; }
+  main { min-height: 100vh; }
+  footer { border-top: 3px solid black; padding-top: 20px; }
   h1, h2, h3, h4, h5 { font-weight: normal; }
   .mixo { font-family: 'Mixo'; }
+  hr { border-top: none; border-bottom: 3px solid black; }
 
   /* Page specific */
 
-  footer { text-align: right; }
   button { appearance: none; border: none; cursor: pointer; }
 
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>
-      <span id="drunk-scale" class="mixo">ooooo</span><br>
-      drink entry</h1>
-    <form>
-      <div class="form-row">
-        <div class="form-group col-md-8">
-          <label for="inputEmail4">drink name</label>
-          <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="inputEmail4">drink cost</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon2">$</span>
-            </div>
-            <input type="text" class="form-control" id="cost" name="cost" placeholder="Cost" required>
+  <main>
+    <div class="container-fluid">
+      <h1>
+        <span id="drunk-scale" class="mixo">ooooo</span><br>
+        drink entry</h1>
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-8">
+            <label for="inputEmail4">drink name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
           </div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputAddress">drink volume</label>
-          <div class="input-group">
-            <input type="number" class="form-control" id="volume" name="volume" placeholder="330" required>
-            <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">mL</span>
+          <div class="form-group col-md-4">
+            <label for="inputEmail4">drink cost</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon2">$</span>
+              </div>
+              <input type="text" class="form-control" id="cost" name="cost" placeholder="Cost" required>
             </div>
           </div>
         </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputAddress">drink volume</label>
+            <div class="input-group">
+              <input type="number" class="form-control" id="volume" name="volume" placeholder="330" required>
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">mL</span>
+              </div>
+            </div>
+          </div>
 
-        <div class="form-group col-md-6">
-          <label for="inputAddress2">alcohol by volume (%)</label>
-          <div class="input-group">
-            <input type="text" class="form-control" id="abv" name="abv" placeholder="4.2" required>
-            <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">%</span>
+          <div class="form-group col-md-6">
+            <label for="inputAddress2">alcohol by volume (%)</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="abv" name="abv" placeholder="4.2" required>
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">%</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="started_time">drink start time</label>
-          <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="started_time">
-            <input class="form-control" size="16" type="text" value="" readonly>
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-th"></span>
-            </span>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="started_time">drink start time</label>
+            <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="started_time">
+              <input class="form-control" size="16" type="text" value="" readonly>
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-remove"></span>
+              </span>
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+              </span>
+            </div>
+            <input type="hidden" id="started_time" name="started_time" value="" />
+            <br/>
           </div>
-          <input type="hidden" id="started_time" name="started_time" value="" />
-          <br/>
-        </div>
 
-        <div class="form-group col-md-6">
-          <label for="finished_time">drink end time</label>
-          <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="finished_time">
-            <input class="form-control" size="16" type="text" value="" readonly>
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-th"></span>
-            </span>
+          <div class="form-group col-md-6">
+            <label for="finished_time">drink end time</label>
+            <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="finished_time">
+              <input class="form-control" size="16" type="text" value="" readonly>
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-remove"></span>
+              </span>
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+              </span>
+            </div>
+            <input type="hidden" id="finished_time" name="finished_time" value="" />
+            <br/>
           </div>
-          <input type="hidden" id="finished_time" name="finished_time" value="" />
-          <br/>
         </div>
-      </div>
-      <footer>
         <button type="submit">submit drink</button>
-      </footer>
-    </form>
-  </div>
+      </form>
+    </div>
+
+  </main>
+
+  <footer>
+    <small>by T<span class="mixo">ooooo</span>m Manderson, Jessica Barr<span class="mixo">oo</span>n, J<span class="mixo">ooo</span>rdan Gardiner, Tyl<span class="mixo">oooo</span>r Stewart &amp; <span class="mixo">o</span>thers<br>
+        dedicated to Tom (who is not an alcoholic btw) <3
+    </small>
+  </footer>
 
   <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
