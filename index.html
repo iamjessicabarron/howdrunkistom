@@ -47,6 +47,10 @@
     <canvas id="drunk-this-week" width="400" height="400"></canvas>
 </article>
 
+<p>
+Tom will be sober at <span id='sober-at'></span>, his current BAC is <span id="current-bac"></span>
+</p>
+
 <footer>
     <small>by<br>
         T<span class="mixo">ooooo</span>m Manderson,<br>
@@ -181,9 +185,8 @@
                 y: 0
             });
         }
-        line_chart_data = line_chart_data.map(({x,y}) => ({t:x.toDate(), y:y}));
         console.log(line_chart_data);
-        var bacChart = new Chart(document.getElementById("drunk-over-time"), { "type": "line", "data": { "datasets": [{"label": "Estimated BAC", "data": line_chart_data, "fill": false, "borderColor": "rgb(0, 0, 0)", "lineTension": 0.1 }] }, "options": {
+        var bacChart = new Chart(document.getElementById("drunk-over-time"), { "type": "line", "data": { "datasets": [{"label": "Estimated BAC", "data": line_chart_data.map(({x,y}) => ({t:x.toDate(), y:y})), "fill": false, "borderColor": "rgb(0, 0, 0)", "lineTension": 0.1 }] }, "options": {
         "scales": {
             xAxes: [{
                 type: "time",
@@ -191,14 +194,40 @@
                 time: {
                     unit: "minute",
                     min: moment().subtract(18, 'hours').toDate(),
-                    max: moment().add(6, 'hours').toDate()
+                    max: moment().add(6, 'hours').toDate(),
+                    stepSize: 90,
                 }
             }]
         }
-    } });
+    }});
+        let lastBefore = null, firstAfter = null;
+        const now = moment();
+        for (var i= 0; i < line_chart_data.length; i++){
+            if (line_chart_data[i].x.isBefore(now)) lastBefore = line_chart_data[i];
+            if (line_chart_data[i].x.isAfter(now)){
+                firstAfter = line_chart_data[i];
+                break;
+            }
+        }
+        let currentBac = null;
+        if (lastBefore === null){
+            currentBac = "not known";
+        } else if (firstAfter === null){
+            currentBac = "0.00"
+        } else {
+            const rise = firstAfter.y - lastBefore.y;
+            const run = firstAfter.x.diff(lastBefore.x, 'seconds', true);
+            const miniRun = now.diff(lastBefore.x, 'seconds', true);
+            currentBac = Math.round(1000 * rise * miniRun/run) / 1000;
+        }
 
 
-        let currentBac = 0.03;
+
+        const bacEl = document.getElementById("current-bac");
+        const soberAtEl = document.getElementById("sober-at");
+        soberAtEl.innerHTML = sober_time.format("hh:mm a")
+        bacEl.innerHTML = currentBac;
+
         let drunkenness = Math.round(currentBac * 5 / 0.2), note = "Tom's not drunk at all right now";
         drunkenness = Math.min(4, Math.max(0, drunkenness)) + 1;
 
@@ -233,6 +262,7 @@
         }
 
         scaleEl.innerHTML = scaleText
+
 
     });
 
