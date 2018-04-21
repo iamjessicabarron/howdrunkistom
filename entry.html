@@ -128,9 +128,11 @@
 
     $('form').submit(function(e){
       e.preventDefault();
-      console.log("form", $('form').serialize())
+      let data = $('form').serialize();
+      if ($("#finished_time").val() == "")
+        data = data.replace("&finished_time=", "");
 
-      $.post( "http://s0.trm.io:3000/drinks", $('form').serialize())
+      $.post( "http://s0.trm.io:3000/drinks", data)
         .done(function(data) {
           alert("Success!")
         })
