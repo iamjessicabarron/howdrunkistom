@@ -2,9 +2,31 @@
 <html>
 
 <head>
-    <title></title>
+    <title>how drunk is tom?</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
     crossorigin="anonymous">
+
+    <style>
+    @font-face {
+        font-family: 'Mixo';
+        src: url('webfonts/VTF_Mixo.eot'); /* IE9 Compat Modes */
+        src: url('webfonts/VTF_Mixo.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('webfonts/VTF_Mixo.woff') format('woff'), /* Modern Browsers */
+        url('webfonts/VTF_Mixo.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('webfonts/VTF_Mixo.svg#mixo') format('svg'); /* Legacy iOS */
+    }
+
+    html, body, button, input, label { font-family: 'Rubik', sans-serif; }
+    body { padding: 2vw; font-size: 36px; }
+    h1, h2, h3, h4, h5 { font-weight: normal; }
+    .mixo { font-family: 'Mixo'; }
+
+    /* Page specific */
+
+    footer { text-align: right; }
+    button { appearance: none; border: none; cursor: pointer; }
+
+    </style>
 
 </head>
 
@@ -12,18 +34,20 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <h1>Mark drinks as finished!</h1>
-                <p>To mark a drink as finished, click the bevvy icon</p>
+                <h1>
+                    <span id="drunk-scale" class="mixo">ooooo</span><br>
+                    mark drinks as finished</h1>
+                <p>to mark a drink as finished, click the bevvy icon</p>
                 <p v-if="drinks === []">
-                    No drinks found!
+                    no drinks found!
                 </p>
                 <ul id="data" class="list-unstyled">
                     <li v-for="drink in drinks" class="media">
                         <img class="mr-3" v-on:click="finishDrink(drink.id)" src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/facebook/65/clinking-beer-mugs_1f37b.png"
                         alt="Finish drink" style="height: 3em; cursor:pointer">
                         <div class="media-body">
-                            <h5 class="mt-0 mb-1" v-text="drink.name">Name</h5>
-                            Started at {{drink.started_time}}, {{drink.volume}}mL at {{drink.abv}}% alcohol by volume. Costs {{drink.cost}}. Currently
+                            <h5 class="mt-0 mb-1" v-text="drink.name">name</h5>
+                            started at {{drink.started_time}}, {{drink.volume}}mL at {{drink.abv}}% alcohol by volume. costs {{drink.cost}}. currently
                             listed as finished at {{drink.finished_time}}.
                         </div>
                         <img class="mr-3" v-on:click="finishDrink(drink.id)" src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/facebook/65/clinking-beer-mugs_1f37b.png"

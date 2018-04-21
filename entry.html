@@ -1,22 +1,48 @@
 <html>
 
 <head>
+  <title>how drunk is tom?</title>
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
     crossorigin="anonymous">
   <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+  <style>
+  @font-face {
+      font-family: 'Mixo';
+      src: url('webfonts/VTF_Mixo.eot'); /* IE9 Compat Modes */
+      src: url('webfonts/VTF_Mixo.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+      url('webfonts/VTF_Mixo.woff') format('woff'), /* Modern Browsers */
+      url('webfonts/VTF_Mixo.ttf') format('truetype'), /* Safari, Android, iOS */
+      url('webfonts/VTF_Mixo.svg#mixo') format('svg'); /* Legacy iOS */
+  }
+
+  html, body, button, input, label { font-family: 'Rubik', sans-serif; }
+  body { padding: 2vw; font-size: 36px; }
+  h1, h2, h3, h4, h5 { font-weight: normal; }
+  .mixo { font-family: 'Mixo'; }
+
+  /* Page specific */
+
+  footer { text-align: right; }
+  button { appearance: none; border: none; cursor: pointer; }
+
+  </style>
 </head>
 
 <body>
   <div class="container">
-    <h1>Drink Entry</h1>
+    <h1>
+      <span id="drunk-scale" class="mixo">ooooo</span><br>
+      drink entry</h1>
     <form>
       <div class="form-row">
         <div class="form-group col-md-8">
-          <label for="inputEmail4">Drink Name</label>
+          <label for="inputEmail4">drink name</label>
           <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
         </div>
         <div class="form-group col-md-4">
-          <label for="inputEmail4">Drink Cost</label>
+          <label for="inputEmail4">drink cost</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon2">$</span>
@@ -27,7 +53,7 @@
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="inputAddress">Drink Volume</label>
+          <label for="inputAddress">drink volume</label>
           <div class="input-group">
             <input type="number" class="form-control" id="volume" name="volume" placeholder="330" required>
             <div class="input-group-append">
@@ -37,7 +63,7 @@
         </div>
 
         <div class="form-group col-md-6">
-          <label for="inputAddress2">Alcohol By Volume (Percentage)</label>
+          <label for="inputAddress2">alcohol by volume (%)</label>
           <div class="input-group">
             <input type="text" class="form-control" id="abv" name="abv" placeholder="4.2" required>
             <div class="input-group-append">
@@ -48,7 +74,7 @@
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="started_time">Drink Start Time</label>
+          <label for="started_time">drink start time</label>
           <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="started_time">
             <input class="form-control" size="16" type="text" value="" readonly>
             <span class="input-group-addon">
@@ -63,7 +89,7 @@
         </div>
 
         <div class="form-group col-md-6">
-          <label for="finished_time">Drink End Time</label>
+          <label for="finished_time">drink end time</label>
           <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="finished_time">
             <input class="form-control" size="16" type="text" value="" readonly>
             <span class="input-group-addon">
@@ -77,7 +103,9 @@
           <br/>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Submit drink</button>
+      <footer>
+        <button type="submit">submit drink</button>
+      </footer>
     </form>
   </div>
 

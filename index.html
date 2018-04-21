@@ -19,15 +19,15 @@
             url('webfonts/VTF_Mixo.svg#mixo') format('svg'); /* Legacy iOS */
         }
 
-        html, body, button, input { font-family: 'Rubik', sans-serif; }
+        html, body, button, input, label { font-family: 'Rubik', sans-serif; }
         body { padding: 2vw; font-size: 36px; }
-
         h1, h2, h3, h4, h5 { font-weight: normal; }
-        footer { text-align: right; }
-        button { appearance: none; border: none; cursor: pointer; }
-
-        .chart { max-width: 400px; display: inline-block; padding: 0 2vw 2vw 0; }
         .mixo { font-family: 'Mixo'; }
+
+        /* Page specific */
+
+        button { appearance: none; border: none; cursor: pointer; }
+        .chart { max-width: 400px; display: inline-block; padding: 0 2vw 2vw 0; }/* idgaf rn */
     </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
@@ -39,7 +39,7 @@
     how drunk is Tom?
 </h1>
 
-<h2 id="note"></h2>
+<h3 id="note"></h3>
 
 <article class="chart">
     <canvas id="drunk-over-time" width="400" height="400"></canvas>
@@ -50,13 +50,19 @@
 </article>
 
 <footer>
-    <button disabled>log a drink</button>
+    <small>by<br>
+        T<span class="mixo">ooooo</span>m Manderson (backend),<br>
+        Jessica Barr<span class="mixo">oo</span>n (frontend),<br>
+        J<span class="mixo">ooo</span>rdan Gardiner (logo),<br>
+        and Tyl<span class="mixo">oooo</span>r Stewart (idea)<br>
+        for T<span class="mixo">ooooo</span>m Manderson (not an alcoholic) <3
+    </small>
 </footer>
 
 <script>
-    new Chart(document.getElementById("drunk-over-time"),{"type":"line","data":{"labels":["January","February","March","April","May","June","July"],"datasets":[{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":false,"borderColor":"rgb(75, 192, 192)","lineTension":0.1}]},"options":{}});
+    new Chart(document.getElementById("drunk-over-time"),{"type":"line","data":{"labels":["January","February","March","April","May","June","July"],"datasets":[{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":false,"borderColor":"rgb(0, 0, 0)","lineTension":0.1}]},"options":{}});
 
-    new Chart(document.getElementById("drunk-this-week"),{"type":"bar","data":{"labels":["January","February","March","April","May","June","July"],"datasets":[{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":false,"backgroundColor":["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)","rgba(75, 192, 192, 0.2)","rgba(54, 162, 235, 0.2)","rgba(153, 102, 255, 0.2)","rgba(201, 203, 207, 0.2)"],"borderColor":["rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)","rgb(75, 192, 192)","rgb(54, 162, 235)","rgb(153, 102, 255)","rgb(201, 203, 207)"],"borderWidth":1}]},"options":{"scales":{"yAxes":[{"ticks":{"beginAtZero":true}}]}}});
+    new Chart(document.getElementById("drunk-this-week"),{"type":"bar","data":{"labels":["January","February","March","April","May","June","July"],"datasets":[{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":false,"backgroundColor":["rgb(0, 0, 0)","rgb(0, 0, 0)","rgb(0, 0, 0)","rgb(0, 0, 0)","rgb(0, 0, 0)","rgb(0, 0, 0)","rgb(0, 0, 0)"],"borderColor":["rgb(0, 0, 0)","rgb(0, 0, 0)","rgb(0, 0, 0)","rgb(0, 0, 0)","rgb(0, 0, 0)","rgb(0, 0, 0)","rgb(0, 0, 0)"],"borderWidth":1}]},"options":{"scales":{"yAxes":[{"ticks":{"beginAtZero":true}}]}}});
 
     let drunkenness = 1, note = "Tom's not drunk at all right now";
 
