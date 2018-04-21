@@ -1,112 +1,104 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-    crossorigin="anonymous">
-  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>how drunk is tom?</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/5.0.0/sanitize.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'Mixo';
+            src: url('webfonts/VTF_Mixo.eot'); /* IE9 Compat Modes */
+            src: url('webfonts/VTF_Mixo.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('webfonts/VTF_Mixo.woff') format('woff'), /* Modern Browsers */
+            url('webfonts/VTF_Mixo.ttf') format('truetype'), /* Safari, Android, iOS */
+            url('webfonts/VTF_Mixo.svg#mixo') format('svg'); /* Legacy iOS */
+        }
+
+        html, body, button, input { font-family: 'Rubik', sans-serif; }
+        body { padding: 2vw; font-size: 36px; }
+
+        h1, h2, h3, h4, h5 { font-weight: normal; }
+        footer { text-align: right; }
+        button { appearance: none; border: none; cursor: pointer; }
+
+        .chart { max-width: 400px; display: inline-block; padding: 0 2vw 2vw 0; }
+        .mixo { font-family: 'Mixo'; }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 </head>
-
 <body>
-  <div class="container">
-    <h1>Drink Entry</h1>
-    <form>
-      <div class="form-row">
-        <div class="form-group col-md-8">
-          <label for="inputEmail4">Drink Name</label>
-          <input type="text" class="form-control" id="name" placeholder="Name">
-        </div>
-        <div class="form-group col-md-4">
-          <label for="inputEmail4">Drink Cost</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon2">$</span>
-            </div>
-            <input type="number" class="form-control" id="cost" placeholder="Cost">
-          </div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputAddress">Drink Volume</label>
-          <div class="input-group">
+<h1>
+    <span id="drunk-scale" class="mixo">ooooo</span>
+    <br>
+    how drunk is Tom?
+</h1>
 
-            <input type="number" class="form-control" id="volume" placeholder="330">
-            <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">mL</span>
-            </div>
-          </div>
+<h2 id="note"></h2>
 
+<article class="chart">
+    <canvas id="drunk-over-time" width="400" height="400"></canvas>
+</article>
 
-        </div>
+<article class="chart">
+    <canvas id="drunk-this-week" width="400" height="400"></canvas>
+</article>
 
+<footer>
+    <button>log a drink</button>
+</footer>
 
+<script>
+    new Chart(document.getElementById("drunk-over-time"),{"type":"line","data":{"labels":["January","February","March","April","May","June","July"],"datasets":[{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":false,"borderColor":"rgb(75, 192, 192)","lineTension":0.1}]},"options":{}});
 
+    new Chart(document.getElementById("drunk-this-week"),{"type":"bar","data":{"labels":["January","February","March","April","May","June","July"],"datasets":[{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":false,"backgroundColor":["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)","rgba(75, 192, 192, 0.2)","rgba(54, 162, 235, 0.2)","rgba(153, 102, 255, 0.2)","rgba(201, 203, 207, 0.2)"],"borderColor":["rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)","rgb(75, 192, 192)","rgb(54, 162, 235)","rgb(153, 102, 255)","rgb(201, 203, 207)"],"borderWidth":1}]},"options":{"scales":{"yAxes":[{"ticks":{"beginAtZero":true}}]}}});
 
-        <div class="form-group col-md-6">
-          <label for="inputAddress2">Alcohol By Volume (Percentage)</label>
-          <div class="input-group">
+    let drunkenness = 1, note = "Tom's not drunk at all right now";
 
-            <input type="number" class="form-control" id="abv" placeholder="4.2">
-            <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">%</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="dtp_input1">Drink Start Time</label>
-          <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-            <input class="form-control" size="16" type="text" value="" readonly>
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-th"></span>
-            </span>
-          </div>
-          <input type="hidden" id="dtp_input1" value="" />
-          <br/>
-        </div>
+    const noteEl = document.getElementById("note");
+    const scaleEl = document.getElementById("drunk-scale");
 
+    let drunkprompt = prompt("How drunk is Tom right now, on a scale of 1-5?")
 
-        <div class="form-group col-md-6">
-          <label for="dtp_input2">Drink End Time</label>
-          <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-            <input class="form-control" size="16" type="text" value="" readonly>
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-th"></span>
-            </span>
-          </div>
-          <input type="hidden" id="dtp_input1" value="" />
-          <br/>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit drink</button>
-    </form>
-  </div>
+    if (!isNaN(drunkprompt))
+        drunkenness = drunkprompt
 
-  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-    crossorigin="anonymous"></script>
-  <script src="js\bootstrap-datetimepicker.min.js"></script>
-  <script type="text/javascript">
-    $('.form_datetime').datetimepicker({
-      weekStart: 1,
-      todayBtn: 1,
-      autoclose: 1,
-      todayHighlight: 1,
-      startView: 2,
-      forceParse: 0,
-      showMeridian: 1
-    });
-  </script>
+    switch (drunkenness) {
+        case "2":
+            note = "Tom's got some booze in him"
+            break;
+
+        case "3":
+            note = "Tom's getting tipsy"
+            break;
+
+        case "4":
+            note = "Tom's pretty lit"
+            break;
+
+        case "5":
+            note = "Tom's wasted"
+            break;
+
+        default:
+            break;
+    }
+
+    noteEl.innerHTML = note
+
+    let scaleText = ""
+    for (let i = 0; i < parseInt(drunkenness) && i <= 5; i++) {
+        scaleText += "o"
+    }
+
+    scaleEl.innerHTML = scaleText
+
+</script>
+
 </body>
-
-
 </html>
