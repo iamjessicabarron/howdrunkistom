@@ -67,7 +67,6 @@
 
     var bevChart = new Chart(document.getElementById("drunk-this-week"), { "type": "bar", "data": { "labels": ["January", "February", "March", "April", "May", "June", "July"], "datasets": [{ "label": "Standard Drinks", "data": [65, 59, 80, 81, 56, 55, 40], "fill": false, "backgroundColor": ["rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)"], "borderColor": ["rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)"], "borderWidth": 1 }] }, "options": { "scales": { "yAxes": [{ "ticks": { "beginAtZero": true } }] } } });
     const query_start = moment().subtract(6 + (6 * 24), 'hours').hours(6).minutes(0).seconds(0);
-    console.log(query_start.toISOString())
     fetch("http://s0.trm.io:3000/drinks?started_time?gt." + query_start.format("YYYY-MM-DD[T]HH:mm:ss")).then((resp) => resp.json()).then((data) => {
         const day_items = [query_start];
         for (var i = 0; i <= 6; i++) {
@@ -82,7 +81,7 @@
             } else {
                 drink.finished_time = drink.started_time.clone().add(30, 'minutes');
             }
-            points_of_interest.push(drink.started_time);
+            points_of_interest.push(drink.started_time.clone());
             points_of_interest.push(drink.finished_time.clone().add(30, 'minutes'));
             let last_day = null;
             for (var i = 0; i < 7; i++) {
@@ -100,12 +99,17 @@
         data.forEach((drink) => {
             const query = ({ x }) => !(
                 x.isBefore(drink.started_time) ||
-                x.isSameOrAfter(drink.finished_time.add(30, 'minutes'))
+                x.isSameOrAfter(drink.finished_time.clone().add(30, 'minutes'))
             )
-            const relevant_pois = _.dropWhile(points_of_interest, query);
-            const rise = 0.0806 * 1.2 * drink.volume * drink.abv / (1000 * 0.58 * 95);
+            const relevant_pois = _.dropRightWhile(_.dropWhile(points_of_interest, query), query);
+            const rise = 0.0806 * 1.2 * drink.volume * drink.abv / (100 * 0.58 * 95);
             const run = drink.finished_time.diff(drink.started_time, 'hours', true);
             const grad = rise / run;
+            console.log({
+                'drink': drink,
+                'relevant': relevant_pois,
+                'grad': grad,
+            })
             for (var poi of relevant_pois) {
                 poi.y += grad;
             }
@@ -113,8 +117,7 @@
 
         const bar_chart_data = []
         for (var i = 0; i < 7; i++) {
-            const day = day_items[i]
-            console.log(day.format("YYYY-MM-DD"));
+            const day = day_items[i];
             const items = items_by_day[i];
 
             let sum = 0;
@@ -133,11 +136,11 @@
             bevChart.data.labels.push(x);
             bevChart.data.datasets[0].data.push(y);
         });
-        console.log(bar_chart_data)
         bevChart.update();
 
+        console.log(points_of_interest);
 
-        const line_chart_data = [];
+        let line_chart_data = [];
         for (var i = 0; i < points_of_interest.length; i++) {
             if (line_chart_data.length === 0 || i === 0) {
                 line_chart_data.push({
@@ -181,6 +184,11 @@
                 y: 0
             });
         }
+        // line_chart_data = line_chart_data.map(({ x, y }) => ({ t: x.toDate(), y: y }));
+        console.log(line_chart_data);
+        bacChart.data.labels.splice(0, bacChart.data.labels.length);
+        bacChart.data.datasets[0].data = line_chart_data;
+        bacChart.update();
     });
 
     let drunkenness = 1, note = "Tom's not drunk at all right now";
