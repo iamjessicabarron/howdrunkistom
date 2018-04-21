@@ -33,7 +33,7 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-sm">
+            <div class="col-sm" id="data">
                 <h1>
                     <span id="drunk-scale" class="mixo">ooooo</span><br>
                     mark drinks as finished</h1>
@@ -41,12 +41,12 @@
                 <p v-if="drinks === []">
                     no drinks found!
                 </p>
-                <ul id="data" class="list-unstyled">
+                <ul class="list-unstyled">
                     <li v-for="drink in drinks" class="media">
                         <img class="mr-3" v-on:click="finishDrink(drink.id)" src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/facebook/65/clinking-beer-mugs_1f37b.png"
                         alt="Finish drink" style="height: 3em; cursor:pointer">
                         <div class="media-body">
-                            <h5 class="mt-0 mb-1" v-text="drink.name">name</h5>
+                            <h2 class="mt-0 mb-1" v-text="drink.name">name</h2>
                             started at {{drink.started_time}}, {{drink.volume}}mL at {{drink.abv}}% alcohol by volume. costs {{drink.cost}}. currently
                             listed as finished at {{drink.finished_time}}.
                         </div>

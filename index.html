@@ -14,8 +14,8 @@
             font-family: 'Mixo';
             src: url('webfonts/VTF_Mixo.eot'); /* IE9 Compat Modes */
             src: url('webfonts/VTF_Mixo.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-            url('webfonts/VTF_Mixo.woff') format('woff'), /* Modern Browsers */
             url('webfonts/VTF_Mixo.ttf') format('truetype'), /* Safari, Android, iOS */
+            url('webfonts/VTF_Mixo.woff') format('woff'), /* Modern Browsers */
             url('webfonts/VTF_Mixo.svg#mixo') format('svg'); /* Legacy iOS */
         }
 
@@ -63,7 +63,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.min.js"></script>
 
 <script>
-    var bacChart = new Chart(document.getElementById("drunk-over-time"), { "type": "line", "data": { "labels": [], "datasets": [{ "label": "Estimated BAC", "data": [], "fill": false, "borderColor": "rgb(0, 0, 0)", "lineTension": 0.1 }] }, "options": {} });
+    
 
     var bevChart = new Chart(document.getElementById("drunk-this-week"), { "type": "bar", "data": { "labels": ["January", "February", "March", "April", "May", "June", "July"], "datasets": [{ "label": "Standard Drinks", "data": [65, 59, 80, 81, 56, 55, 40], "fill": false, "backgroundColor": ["rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)"], "borderColor": ["rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)"], "borderWidth": 1 }] }, "options": { "scales": { "yAxes": [{ "ticks": { "beginAtZero": true } }] } } });
     const query_start = moment().subtract(6 + (6 * 24), 'hours').hours(6).minutes(0).seconds(0);
@@ -166,7 +166,7 @@
                 i--;
             } else {
                 line_chart_data.push({
-                    "x": points_of_interest[i].x,
+                    "x": points_of_interest[i].x.clone(),
                     "y": y
                 });
             }
@@ -181,10 +181,21 @@
                 y: 0
             });
         }
-        // line_chart_data = line_chart_data.map(({ x, y }) => ({ t: x.toDate(), y: y }));
+        line_chart_data = line_chart_data.map(({x,y}) => ({t:x.toDate(), y:y}));
         console.log(line_chart_data);
-        bacChart.data.datasets[0].data = line_chart_data;
-        bacChart.update();
+        var bacChart = new Chart(document.getElementById("drunk-over-time"), { "type": "line", "data": { "datasets": [{"label": "Estimated BAC", "data": line_chart_data, "fill": false, "borderColor": "rgb(0, 0, 0)", "lineTension": 0.1 }] }, "options": {
+        "scales": {
+            xAxes: [{
+                type: "time",
+                distribution: "linear",
+                time: {
+                    unit: "minute",
+                    min: moment().subtract(18, 'hours').toDate(),
+                    max: moment().add(6, 'hours').toDate()
+                }
+            }]
+        }
+    } });
 
 
         let currentBac = 0.03;
