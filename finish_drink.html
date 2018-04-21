@@ -49,11 +49,6 @@
         .then(function (drinks) {
             console.log(drinks);
             var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)authToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-            if (!cookieValue) {
-                alert("Not authorised!");
-                // auth using secret key
-                cookieValue = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiZHJ1bmtfdG9tIn0.Q99N3zn7p8mRgez8f6VmXEescUsD3wWYsxs8ZIRRq3A";
-            }
             window.vueInstance = new Vue({
                 el: "#data",
                 data: {
@@ -65,7 +60,7 @@
                         fetch("http://s0.trm.io:3000/drinks?id=eq." + drinkId, {
                             method: "PATCH",
                             headers: {
-                                'Authorization': "Bearer " + cookieValue,
+                                // 'Authorization': "Bearer " + cookieValue,
                                 "Content-Type": "application/json",
                             },
                             body: JSON.stringify({
