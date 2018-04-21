@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+    crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h1>Mark drinks as finished!</h1>
+                <p>To mark a drink as finished, click the bevvy icon</p>
+                <p v-if="drinks === []">
+                    No drinks found!
+                </p>
+                <ul id="data" class="list-unstyled">
+                    <li v-for="drink in drinks" class="media">
+                        <img class="mr-3" v-on:click="finishDrink(drink.id)" src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/facebook/65/clinking-beer-mugs_1f37b.png"
+                        alt="Finish drink" style="height: 3em; cursor:pointer">
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1" v-text="drink.name">Name</h5>
+                            Started at {{drink.started_time}}, {{drink.volume}}mL at {{drink.abv}}% alcohol by volume. Costs {{drink.cost}}. Currently
+                            listed as finished at {{drink.finished_time}}.
+                        </div>
+                        <img class="mr-3" v-on:click="finishDrink(drink.id)" src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/facebook/65/clinking-beer-mugs_1f37b.png"
+                        alt="Finish drink" style="height: 3em; cursor:pointer">
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" integrity="sha256-L3S3EDEk31HcLA5C6T2ovHvOcD80+fgqaCDt2BAi92o="
+    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script type="text/javascript">
+        fetch("http://s0.trm.io:3000/drinks?finished_time=is.null")
+        .then(function (resp) { return resp.json(); })
+        .then(function (drinks) {
+            console.log(drinks);
+            var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)authToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+            if (!cookieValue) {
+                alert("Not authorised!");
+                // auth using secret key
+                cookieValue = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiZHJ1bmtfdG9tIn0.Q99N3zn7p8mRgez8f6VmXEescUsD3wWYsxs8ZIRRq3A";
+            }
+            window.vueInstance = new Vue({
+                el: "#data",
+                data: {
+                    "drinks": drinks
+                },
+                methods: {
+                    finishDrink: function (drinkId) {
+                        console.log(drinkId);
+                        fetch("http://s0.trm.io:3000/drinks?id=eq." + drinkId, {
+                            method: "PATCH",
+                            headers: {
+                                'Authorization': "Bearer " + cookieValue,
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                "finished_time": moment().format("YYYY-MM-DD HH:mm:ss")
+                            })
+                        }).then(function (resp) {
+                            setTimeout(function () {
+                                window.location.href = window.location.href;
+                            }, 200)
+                            return resp.json();
+                        }).then(console.log, console.error);
+                    }
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>
