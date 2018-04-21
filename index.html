@@ -94,16 +94,13 @@
         points_of_interest.sort((a, b) => a.diff(b, 'seconds', true));
         points_of_interest = points_of_interest.map((poi) => ({
             x: poi,
-            y: -0.16,
+            y: -0.016,
         }));
         data.forEach((drink) => {
-            const query = ({ x }) => !(
-                x.isBefore(drink.started_time) ||
-                x.isSameOrAfter(drink.finished_time.clone().add(30, 'minutes'))
-            )
-            const relevant_pois = _.dropRightWhile(_.dropWhile(points_of_interest, query), query);
+            const query = ({ x }) => x.isSameOrAfter(drink.started_time) && x.isBefore(drink.finished_time.clone().add(30, 'minutes'));
+            const relevant_pois = _.filter(points_of_interest, query);
             const rise = 0.0806 * 1.2 * drink.volume * drink.abv / (100 * 0.58 * 95);
-            const run = drink.finished_time.diff(drink.started_time, 'hours', true);
+            const run = drink.finished_time.clone().add(30, 'minutes').diff(drink.started_time, 'hours', true);
             const grad = rise / run;
             console.log({
                 'drink': drink,
@@ -153,7 +150,7 @@
             let y = points_of_interest[i - 1].y * run + line_chart_data[i - 1].y;
             if (y < 0) {
                 y = 0;
-                const end = points_of_interest[i - 1].x.add(
+                const end = points_of_interest[i - 1].x.clone().add(
                     (0 - line_chart_data[i - 1].y) / points_of_interest[i - 1].y,
                     'hours'
                 );
