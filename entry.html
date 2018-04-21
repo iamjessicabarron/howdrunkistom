@@ -13,7 +13,7 @@
       <div class="form-row">
         <div class="form-group col-md-8">
           <label for="inputEmail4">Drink Name</label>
-          <input type="text" class="form-control" id="name" placeholder="Name">
+          <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
         </div>
         <div class="form-group col-md-4">
           <label for="inputEmail4">Drink Cost</label>
@@ -21,7 +21,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon2">$</span>
             </div>
-            <input type="number" class="form-control" id="cost" placeholder="Cost">
+            <input type="text" class="form-control" id="cost" name="cost" placeholder="Cost" required>
           </div>
         </div>
       </div>
@@ -29,24 +29,17 @@
         <div class="form-group col-md-6">
           <label for="inputAddress">Drink Volume</label>
           <div class="input-group">
-
-            <input type="number" class="form-control" id="volume" placeholder="330">
+            <input type="number" class="form-control" id="volume" name="volume" placeholder="330" required>
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon2">mL</span>
             </div>
           </div>
-
-
         </div>
-
-
-
 
         <div class="form-group col-md-6">
           <label for="inputAddress2">Alcohol By Volume (Percentage)</label>
           <div class="input-group">
-
-            <input type="number" class="form-control" id="abv" placeholder="4.2">
+            <input type="text" class="form-control" id="abv" name="abv" placeholder="4.2" required>
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon2">%</span>
             </div>
@@ -55,8 +48,8 @@
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="dtp_input1">Drink Start Time</label>
-          <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+          <label for="started_time">Drink Start Time</label>
+          <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="started_time">
             <input class="form-control" size="16" type="text" value="" readonly>
             <span class="input-group-addon">
               <span class="glyphicon glyphicon-remove"></span>
@@ -65,14 +58,13 @@
               <span class="glyphicon glyphicon-th"></span>
             </span>
           </div>
-          <input type="hidden" id="dtp_input1" value="" />
+          <input type="hidden" id="started_time" name="started_time" value="" />
           <br/>
         </div>
 
-
         <div class="form-group col-md-6">
-          <label for="dtp_input2">Drink End Time</label>
-          <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+          <label for="finished_time">Drink End Time</label>
+          <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="finished_time">
             <input class="form-control" size="16" type="text" value="" readonly>
             <span class="input-group-addon">
               <span class="glyphicon glyphicon-remove"></span>
@@ -81,7 +73,7 @@
               <span class="glyphicon glyphicon-th"></span>
             </span>
           </div>
-          <input type="hidden" id="dtp_input1" value="" />
+          <input type="hidden" id="finished_time" name="finished_time" value="" />
           <br/>
         </div>
       </div>
@@ -94,7 +86,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
     crossorigin="anonymous"></script>
-  <script src="js\bootstrap-datetimepicker.min.js"></script>
+  <script src="js/bootstrap-datetimepicker.min.js"></script>
   <script type="text/javascript">
     $('.form_datetime').datetimepicker({
       weekStart: 1,
@@ -105,6 +97,16 @@
       forceParse: 0,
       showMeridian: 1
     });
+
+    $('form').submit(function(e){
+      e.preventDefault();
+      console.log("form", $('form').serialize())
+
+      $.post( "http://s0.trm.io:3000/drinks", $('form').serialize())
+        .done(function(data) {
+          alert("Success!")
+        })
+    })
   </script>
 </body>
 
