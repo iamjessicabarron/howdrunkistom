@@ -2,7 +2,7 @@
 
 <head>
   <title>how drunk is tom?</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
     crossorigin="anonymous">
   <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
@@ -34,7 +34,7 @@
 
 <body>
   <main>
-    <div class="container-fluid">
+    <div id="app" class="container-fluid">
       <h1>
         <span id="drunk-scale" class="mixo">ooooo</span><br>
         drink entry</h1>
@@ -57,12 +57,21 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputAddress">drink volume</label>
+            <div class="dropdown">
             <div class="input-group">
-              <input type="number" class="form-control" id="volume" name="volume" placeholder="330" required>
-              <div class="input-group-append">
-                <span class="input-group-text" id="basic-addon2">mL</span>
-              </div>
-            </div>
+
+                    <input type="number" class="form-control dropdown-toggle" data-toggle="dropdown" id="volume" name="volume" v-model="currentVolume">
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="basic-addon2">mL</span>
+                    </div>
+                      <span class="caret"></span></button>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                          <li class="dropdown-item" role="presentation" v-on:click="setVolume" v-for="item in defaults">{{ item.volume }} <span class="badge badge-pill badge-light">{{ item.name }}</span></sub></li>
+                      </ul>
+                    </div>
+                </div>
+              <!-- <input type="number" class="form-control" id="volume" name="volume" placeholder="330" required> -->
+
           </div>
 
           <div class="form-group col-md-6">
@@ -75,6 +84,7 @@
             </div>
           </div>
         </div>
+      </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="started_time">drink start time</label>
@@ -108,7 +118,9 @@
         </div>
         <button type="submit">submit drink</button>
       </form>
-    </div>
+      
+
+
 
   </main>
 
@@ -121,10 +133,50 @@
   <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
     crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
   <script src="js/bootstrap-datetimepicker.min.js"></script>
   <script type="text/javascript">
+    
+    let drinkDefaults = {}
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+        defaults: drinkDefaults,
+        currentVolume: 0
+      },
+      methods: {
+        setVolume: function(e) {
+          console.log(e)
+
+          if (e.target.nodeName === "LI") {
+            app.currentVolume = parseInt(e.target.childNodes[0].data)
+          } else {
+            app.currentVolume = parseInt(e.target.parentElement.childNodes[0].data)
+          }
+          document.querySelector('.dropdown-menu').classList.remove('show')
+        }
+      }
+  
+    })
+
+    fetch('./defaults.json')
+    .then(function(response) {
+      return response.json()
+    })
+    .then(function(response) {
+      console.log(app.defaults)
+      app.defaults = response
+      console.log(app.defaults)
+    })
+
+
+
+
     $('.form_datetime').datetimepicker({
       weekStart: 1,
       todayBtn: 1,
@@ -151,3 +203,10 @@
 
 
 </html>
+
+
+<!-- 
+  
+  Hello
+  Hello
+ -->
